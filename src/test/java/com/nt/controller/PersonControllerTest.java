@@ -43,6 +43,14 @@ class PersonControllerTest {
 
         assertEquals("Job Status: COMPLETED", result);
     }
+    @Test
+    void startJob_returnsFailureMessageWhenJobThrows() throws Exception {
+        when(jobLauncher.run(eq(job), any(JobParameters.class)))
+                .thenThrow(new RuntimeException("simulated failure"));
 
+        String result = controller.startJob();
+
+        assertEquals("Job failed: simulated failure", result);
+    }
 
 }
